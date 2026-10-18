@@ -5,8 +5,9 @@ type Authorization {
 	apiKey: string
 }
 
-interface extender AuthorizationExtender {
+interface extender AuthorizationExtender { //mi permette di aggiungere un API-key/token a tutti i messaggi usati per la creazione di utenti
 RequestResponse:
+	//specifica che quando arriva una call da createUser vogliamo aggiungere come feat la Auth, e il possibile nuovo fault
 	createUser( Authorization )( void ) throws Unauthorized( void )
 }
 
@@ -51,15 +52,17 @@ service Gateway {
 		}
 		aggregates:
 			greeter,
-			users with AuthorizationExtender
+			users with AuthorizationExtender //utilizzo un interface extender 
 	}
 
-	courier WebInput {
+
+	//con courier viene eseguito a ogni invio di messaggio
+	courier WebInput { //all'access point WebInput, quando arria una call createUser esegui il seguente codice
 		[ createUser( request )( response ) {
 			if( request.apiKey != "Bearer 123" ) {
 				throw( Unauthorized )
 			}
-			forward( request )( response )
+			forward( request )( response ) //primitiva che rimuove i dati che abbiamo usato in "locale" per estendere l'API
 		} ]
 	}
 

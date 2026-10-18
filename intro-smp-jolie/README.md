@@ -19,6 +19,10 @@
 - users
 	1) in-memory
 	2) with-db-http
+	**NB: with-db-sodep non è stato trattato in questa sezione**
+- gateway **Usa by-username e with-db-sodep**
+	1) simple 
+	2) auth
 
 
 

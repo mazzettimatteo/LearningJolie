@@ -53,7 +53,7 @@ service Users {
 				username = request.username
 			} )( result )
 			if( #result.row == 0 ) {
-				throw( UserNotFound, "Could not find username " + request.username )
+				throw( UserNotFound, "Could not find username " + request.username ) //Automatic fault propagation: se questo servizio lancia un fault dopo la richiesta a catena da parte di altri servizi, il fault segue quella catena all'indietro fino a un handler o alla fine
 			}
 			response << result.row[0]
 		} ]
